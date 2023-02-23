@@ -3,18 +3,13 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
 //Add a deck
-//import { ADD_DECK} from '../../utils/mutations';
 import { ADD_DECK } from '../../utils/mutations';
 
 //Query the deck
-//import { QUERY_DECKS } from '../../utils/queries';
-import { QUERY_DECKS } from '../../utils/queries';
-
+import { QUERY_DECKS, QUERY_ME} from '../../utils/queries';
 
 import Auth from '../../utils/auth';
 
-
-//Update the Function to DeckForm
 const DeckForm = () => {
   const [deckName, setDeckName] = useState('');
 
@@ -32,30 +27,15 @@ const DeckForm = () => {
       } catch (e) {
         console.error(e);
       }
+
+       // update me object's cache
+       const { me } = cache.readQuery({ query: QUERY_ME });
+       cache.writeQuery({
+         query: QUERY_ME,
+         data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
+       });
     },
   });
-
-  // const deckForm = () => {
-  //   const [deckText, setdeckText] = useState('');
-  
-  //   const [characterCount, setCharacterCount] = useState(0);
-  
-  //   const [adddeck, { error }] = useMutation(ADD_deck, {
-  //     update(cache, { data: { adddeck } }) {
-  //       try {
-  //         const { decks } = cache.readQuery({ query: QUERY_decks });
-  
-  //         cache.writeQuery({
-  //           query: QUERY_decks,
-  //           data: { decks: [adddeck, ...decks] },
-  //         });
-  //       } catch (e) {
-  //         console.error(e);
-  //       }
-  //     },
-  //   });
-
-
 
 
   const handleFormSubmit = async (event) => {
@@ -82,17 +62,11 @@ const DeckForm = () => {
       setDeckName(value);
       setCharacterCount(value.length);
     }
-
-    // if (name === 'deckText' && value.length <= 280) {
-    //   setdeckText(value);
-    //   setCharacterCount(value.length);
-    // }
   };
 
   return (
     
     <div>
-      {/* <h3>What's on your techy mind?</h3> */}
       <h3>What's the study topic for your new deck?</h3>
 
       {Auth.loggedIn() ? (
@@ -113,9 +87,6 @@ const DeckForm = () => {
                 name="deckName"
                 placeholder="Place the name of your deck here..."
                 value={deckName}
-                // name="deckText"
-                // placeholder="Here's a new deck..."
-                // value={deckText}
                 className="form-input w-100"
                 style={{ lineHeight: '1.5', resize: 'vertical' }}
                 onChange={handleChange}
@@ -145,4 +116,3 @@ const DeckForm = () => {
 };
 
 export default DeckForm;
-//export default deckForm;

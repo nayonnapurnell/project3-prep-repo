@@ -22,7 +22,7 @@ const userSchema = new Schema({
   decks: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'deck',
+      ref: 'Deck',
     },
   ],
 });

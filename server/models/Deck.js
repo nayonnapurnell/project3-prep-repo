@@ -1,10 +1,10 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
-const deckschema = new Schema({
-  deckText: {
+const deckSchema = new Schema({
+  deckName: {
     type: String,
-    required: 'You need to leave a deck!',
+    required: 'You need to leave a deck name!',
     minlength: 1,
     maxlength: 280,
     trim: true,
@@ -40,6 +40,6 @@ const deckschema = new Schema({
   ],
 });
 
-const deck = model('deck', deckschema);
+const Deck = model('Deck', deckSchema);
 
-module.exports = deck;
+module.exports = Deck;

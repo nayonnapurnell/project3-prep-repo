@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, deck } = require('../models');
+const { User, Deck } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -48,10 +48,10 @@ const resolvers = {
 
       return { token, user };
     },
-    adddeck: async (parent, { deckText }, context) => {
+    adddeck: async (parent, { deckName }, context) => {
       if (context.user) {
-        const deck = await deck.create({
-          deckText,
+        const deck = await Deck.create({
+          deckName,
           deckAuthor: context.user.username,
         });
 
@@ -66,7 +66,7 @@ const resolvers = {
     },
     addComment: async (parent, { deckId, commentText }, context) => {
       if (context.user) {
-        return deck.findOneAndUpdate(
+        return Deck.findOneAndUpdate(
           { _id: deckId },
           {
             $addToSet: {
@@ -83,7 +83,7 @@ const resolvers = {
     },
     removedeck: async (parent, { deckId }, context) => {
       if (context.user) {
-        const deck = await deck.findOneAndDelete({
+        const deck = await Deck.findOneAndDelete({
           _id: deckId,
           deckAuthor: context.user.username,
         });
@@ -99,7 +99,7 @@ const resolvers = {
     },
     removeComment: async (parent, { deckId, commentId }, context) => {
       if (context.user) {
-        return deck.findOneAndUpdate(
+        return Deck.findOneAndUpdate(
           { _id: deckId },
           {
             $pull: {

@@ -25,25 +25,25 @@ const DeckList = ({
                 >
                   {deck.deckAuthor} <br />
                   <span style={{ fontSize: '1rem' }}>
-                    had this deck on {deck.createdAt}
+                    created this deck on {deck.createdAt}
                   </span>
                 </Link>
               ) : (
                 <>
                   <span style={{ fontSize: '1rem' }}>
-                    You had this deck on {deck.createdAt}
+                    You created this deck on {deck.createdAt}
                   </span>
                 </>
               )}
             </h4>
             <div className="card-body bg-light p-2">
-              <p>{deck.deckText}</p>
+              <p>{deck.deckName}</p>
             </div>
             <Link
               className="btn btn-primary btn-block btn-squared"
               to={`/decks/${deck._id}`}
             >
-              Join the discussion on this deck.
+              View the cards on this deck.
             </Link>
           </div>
         ))}

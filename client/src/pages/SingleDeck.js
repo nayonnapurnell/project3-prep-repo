@@ -41,7 +41,7 @@ const SingleDeck = () => {
             lineHeight: '1.5',
           }}
         >
-          {deck.deckText}
+          {deck.deckName}
         </blockquote>
       </div>
 

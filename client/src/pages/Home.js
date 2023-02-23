@@ -4,10 +4,10 @@ import { useQuery } from '@apollo/client';
 import DeckList from '../components/DeckList';
 import DeckForm from '../components/DeckForm';
 
-import { QUERY_decks } from '../utils/queries';
+import { QUERY_DECKS } from '../utils/queries';
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_decks);
+  const { loading, data } = useQuery(QUERY_DECKS);
   const decks = data?.decks || [];
 
   return (

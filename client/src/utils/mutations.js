@@ -24,11 +24,11 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_deck = gql`
-  mutation adddeck($deckText: String!) {
-    adddeck(deckText: $deckText) {
+export const ADD_DECK = gql`
+  mutation adddeck($deckName: String!) {
+    adddeck(deckName: $deckName) {
       _id
-      deckText
+      deckName
       deckAuthor
       createdAt
       comments {
@@ -43,7 +43,7 @@ export const ADD_COMMENT = gql`
   mutation addComment($deckId: ID!, $commentText: String!) {
     addComment(deckId: $deckId, commentText: $commentText) {
       _id
-      deckText
+      deckName
       deckAuthor
       createdAt
       comments {

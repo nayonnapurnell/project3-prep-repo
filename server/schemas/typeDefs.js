@@ -6,12 +6,12 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
-    decks: [deck]!
+    decks: [Deck]!
   }
 
   type Deck {
     _id: ID
-    deckText: String
+    deckName: String
     deckAuthor: String
     createdAt: String
     comments: [Comment]!
@@ -32,18 +32,18 @@ const typeDefs = gql`
   type Query {
     users: [User]
     user(username: String!): User
-    decks(username: String): [deck]
-    deck(deckId: ID!): deck
+    decks(username: String): [Deck]
+    deck(deckId: ID!): Deck
     me: User
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    adddeck(deckText: String!): deck
-    addComment(deckId: ID!, commentText: String!): deck
-    removedeck(deckId: ID!): deck
-    removeComment(deckId: ID!, commentId: ID!): deck
+    adddeck(deckName: String!): Deck
+    addComment(deckId: ID!, commentText: String!): Deck
+    removedeck(deckId: ID!): Deck
+    removeComment(deckId: ID!, commentId: ID!): Deck
   }
 `;
 
