@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
+//Add a deck
+//import { ADD_DECK} from '../../utils/mutations';
 import { ADD_THOUGHT } from '../../utils/mutations';
+
+//Query the deck
+//import { QUERY_DECKS } from '../../utils/queries';
 import { QUERY_THOUGHTS } from '../../utils/queries';
-//import { QUERY_THOUGHTS, QUERY_ME } from '../../utils/queries';
+
 
 import Auth from '../../utils/auth';
 
-const ThoughtForm = () => {
-  const [thoughtText, setThoughtText] = useState('');
+
+//Update the Function to DeckForm
+const DeckForm = () => {
+  const [deckName, setDeckName] = useState('');
 
   const [characterCount, setCharacterCount] = useState(0);
 
@@ -25,16 +32,28 @@ const ThoughtForm = () => {
       } catch (e) {
         console.error(e);
       }
-
-      //We don't need the code below.
-      // update me object's cache
-      // const { me } = cache.readQuery({ query: QUERY_ME });
-      // cache.writeQuery({
-      //   query: QUERY_ME,
-      //   data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
-      // });
     },
   });
+
+  // const ThoughtForm = () => {
+  //   const [thoughtText, setThoughtText] = useState('');
+  
+  //   const [characterCount, setCharacterCount] = useState(0);
+  
+  //   const [addThought, { error }] = useMutation(ADD_THOUGHT, {
+  //     update(cache, { data: { addThought } }) {
+  //       try {
+  //         const { thoughts } = cache.readQuery({ query: QUERY_THOUGHTS });
+  
+  //         cache.writeQuery({
+  //           query: QUERY_THOUGHTS,
+  //           data: { thoughts: [addThought, ...thoughts] },
+  //         });
+  //       } catch (e) {
+  //         console.error(e);
+  //       }
+  //     },
+  //   });
 
 
 
@@ -45,12 +64,12 @@ const ThoughtForm = () => {
     try {
       const { data } = await addThought({
         variables: {
-          thoughtText,
+          deckName,
           thoughtAuthor: Auth.getProfile().data.username,
         },
       });
 
-      setThoughtText('');
+      setDeckName('');
     } catch (err) {
       console.error(err);
     }
@@ -59,15 +78,22 @@ const ThoughtForm = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    if (name === 'thoughtText' && value.length <= 280) {
-      setThoughtText(value);
+    if (name === 'deckName' && value.length <= 280) {
+      setDeckName(value);
       setCharacterCount(value.length);
     }
+
+    // if (name === 'thoughtText' && value.length <= 280) {
+    //   setThoughtText(value);
+    //   setCharacterCount(value.length);
+    // }
   };
 
   return (
+    
     <div>
-      <h3>What's on your techy mind?</h3>
+      {/* <h3>What's on your techy mind?</h3> */}
+      <h3>What's the study topic for your new deck?</h3>
 
       {Auth.loggedIn() ? (
         <>
@@ -84,9 +110,12 @@ const ThoughtForm = () => {
           >
             <div className="col-12 col-lg-9">
               <textarea
-                name="thoughtText"
-                placeholder="Here's a new thought..."
-                value={thoughtText}
+                name="deckName"
+                placeholder="Place the name of your deck here..."
+                value={deckName}
+                // name="thoughtText"
+                // placeholder="Here's a new thought..."
+                // value={thoughtText}
                 className="form-input w-100"
                 style={{ lineHeight: '1.5', resize: 'vertical' }}
                 onChange={handleChange}
@@ -95,7 +124,7 @@ const ThoughtForm = () => {
 
             <div className="col-12 col-lg-3">
               <button className="btn btn-primary btn-block py-3" type="submit">
-                Add Thought
+                Create Deck
               </button>
             </div>
             {error && (
@@ -115,4 +144,5 @@ const ThoughtForm = () => {
   );
 };
 
-export default ThoughtForm;
+export default DeckForm;
+//export default ThoughtForm;
